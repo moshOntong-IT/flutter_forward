@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
           ///* set to 50, which means that there will be 50 pixels of empty
           ///* space between the two Container widgets.
           const SizedBox(
-            height: 50,
+            width: 50,
           ),
           Center(
             child: Container(
