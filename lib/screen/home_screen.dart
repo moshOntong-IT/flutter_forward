@@ -10,14 +10,20 @@ class HomeScreen extends StatelessWidget {
     ///and floating action button. It also provides a framework to implement
     ///drawer and bottom sheet behavior. The Scaffold widget is a Material
     ///Design container that provides a visual structure for an app's layout.
-    return const Scaffold(
-      ///The SafeArea widget in Flutter is used to ensure that the
-      ///important visual elements of an app are not obscured by the
-      ///device's notch or edges. The SafeArea widget is a rectangular area
-      ///that is guaranteed to be free from any system UI elements such as the
-      ///notch, status bar, or navigation bar.
-      body: SafeArea(
-        child: Text('Hello World'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Hello',
+        ),
+      ),
+
+      ///notch, status bar, or navigation bar. as the
+      body: const SafeArea(
+        child: Center(
+          child: Text(
+            'Hello World',
+          ),
+        ),
       ),
     );
   }
