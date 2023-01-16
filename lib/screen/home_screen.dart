@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
+import 'second_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -13,13 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int counter = 0;
   @override
   Widget build(BuildContext context) {
-    ///* When the setState method is called, the widget's build method is triggered,
-    ///*  which causes the widget to be rebuilt with the updated state.
-    ///* This process is known as rebuilding the widget tree.
-    ///* Therefore, the int counter variable must be not here inside the build method.
-    ///*  It must be outside the build method.
-    /// ! int counter = 0;
-
     ///* In Flutter, a scaffold is a basic skeletal structure that provides
     ///* support for visual elements such as the app bar, bottom navigation bar,
     ///* and floating action button. It also provides a framework to implement
@@ -32,8 +27,27 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         body: Center(
-          child: Text(
-            'You have pushed the button this many times: $counter',
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'You have pushed the button this many times: $counter',
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SecondScreen(),
+                    ),
+                  );
+                },
+                child: const Text('Go to second screen'),
+              ),
+            ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
