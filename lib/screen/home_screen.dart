@@ -12,6 +12,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    log('initState');
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    log('dispose');
+  }
+
   int counter = 0;
   @override
   Widget build(BuildContext context) {
@@ -38,14 +50,54 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SecondScreen(),
-                    ),
-                  );
+                  if (counter < 3) {
+                    return;
+                  }
+
+                  /// * when we use and async and await here, we will get an
+                  /// * lint warning, it says that "Do not use BuildContext"
+                  /// * accross async gaps. To bypass this warning, we can
+                  /// * use the [then] method of the Future class.
+                  /// ! final result = await Navigator.push<String>(
+                  /// !   context,
+                  /// !   MaterialPageRoute(
+                  /// !     builder: (context) => SecondScreen(
+                  /// !       randomToGenerate: counter,
+                  /// !     ),
+                  /// !   ),
+                  /// ! );
+
+                  /// ! ScaffoldMessenger.of(context).showSnackBar(
+                  /// !   SnackBar(
+                  /// !     content: Text(result ?? 'No result'),
+                  /// !   ),
+                  /// ! );
+
+                  Navigator.push<String>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SecondScreen(
+                          randomToGenerate: counter,
+                        ),
+                      )).then((result) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Congratulations $result  🎉🎉🎉'),
+                      ),
+                    );
+
+                    setState(() {
+                      counter = 0;
+                    });
+                  });
+
+                  /// * The then() method is a way to handle the result of a
+                  /// * Future as soon as it completes. This is useful when you
+                  /// * need to perform some action after a Future completes,
+                  /// * such as updating the UI, or triggering another asynchronous
+                  /// *  operation.
                 },
-                child: const Text('Go to second screen'),
+                child: const Text('Go to spin wheel'),
               ),
             ],
           ),
