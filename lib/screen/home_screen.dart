@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           randomToGenerate: counter,
                         ),
                       )).then((result) {
+                    if (result == null) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Congratulations $result  🎉🎉🎉'),
