@@ -4,6 +4,7 @@ import 'dart:math' hide log;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
+import 'package:flutter_forward/widgets/second_screen_content.dart';
 import 'package:random_name_generator/random_name_generator.dart';
 
 class SecondScreen extends StatefulWidget {
@@ -66,63 +67,18 @@ class _SecondScreenState extends State<SecondScreen> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               } else if (snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: FortuneWheel(
-                        selected: controller.stream,
-                        animateFirst: false,
-                        items: [
-                          /// * The three dots (...) inside of the items
-                          /// * list is the spread operator. It is used to expand
-                          /// * the elements of an iterable (such as a list or a set)
-                          /// * into individual elements of a new list.
-                          /// * In this case, the items.map() method is used to create
-                          /// * a new list of FortuneItem widgets, with each widget
-                          /// * containing a Text widget with the value of the
-                          /// * corresponding item from the items list. The spread
-                          /// * operator is then used to expand this new list of
-                          /// * FortuneItem widgets into the items list, so that each
-                          /// * widget in the new list becomes an individual element in
-                          /// * the items list.
-                          ...snapshot.data!.map(
-                            (item) => FortuneItem(
-                              child: Text(item),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              final randomWinnerIndex =
-                                  Fortune.randomInt(0, widget.randomToGenerate);
-                              result = snapshot.data![randomWinnerIndex];
-                              controller.add(randomWinnerIndex);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                            ),
-                            child: const Text('Spin'),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context, result);
-                          },
-                          child: const Text('Done'),
-                        ),
-                      ],
-                    ),
-                  ],
+                return SecondScreenContent(
+                  stream: controller.stream,
+                  items: snapshot.data!,
+                  onSpin: () {
+                    final randomWinnerIndex =
+                        Fortune.randomInt(0, widget.randomToGenerate);
+                    result = snapshot.data![randomWinnerIndex];
+                    controller.add(randomWinnerIndex);
+                  },
+                  onDone: () {
+                    Navigator.pop(context, result);
+                  },
                 );
               } else {
                 return const Text('Something went wrong');
